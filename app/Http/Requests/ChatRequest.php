@@ -4,25 +4,31 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EventRequest extends FormRequest
+class ChatRequest extends FormRequest
 {
-    public function rules()
-    {
-        return [
-            'event.title'=> 'required|string|max:100',
-            'event.contents'=> 'required|string|max:5000',
-            
-            ];
-    }
+    
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
+     
+     
+    public function rules()
+    
+    {
+        return [
+            'chat.message'=> 'required|string|max:100',
+            ];
+    }
+    
+    
+    
     public function authorize()
     {
         return true;
     }
+    
     
     
     /**
@@ -30,5 +36,6 @@ class EventRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-   
+    
+    
 }

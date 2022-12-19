@@ -3,7 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
-
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\RegisterdUserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,17 +16,23 @@ use App\Http\Controllers\EventController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+  
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/', [EventController::class,'index'])->middleware('guest')->name('/');
+#ゲスト状態のindexページ表示
+
+
+Route::controller(ChatController::class)->middleware(['auth'])->group(function()
+{
+Route::get('/chats/','index')->name('chat.users');
+Route::post('/chats/{user}','store')->name('chat.store');
+Route::get('/chats/{user}','contents')->name('chat.contents');
+Route::delete('/chats/{chat}/','delete')->name('chat.delete');
+});
 
 Route::controller(EventController::class)->middleware(['auth'])->group(function()
 {
-    Route::get('/', 'index')->name('index');
+    Route::get('/events', 'index')->name('index');
     Route::post('/events', 'store')->name('store');
     Route::get('/events/create', 'create')->name('create');
     Route::get('/events/{event}', 'show')->name('show');
@@ -34,4 +41,10 @@ Route::controller(EventController::class)->middleware(['auth'])->group(function(
     Route::get('/events/{event}/edit', 'edit')->name('edit');
 });
 
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 require __DIR__.'/auth.php';

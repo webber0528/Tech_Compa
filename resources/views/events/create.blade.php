@@ -1,36 +1,34 @@
-<!DOCTYPE HTML>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <title>Event</title>
-    </head>
-    
-    <body>
+<body>
         <x-app-layout>
-            <x-slot name="header">
-                　{{ Auth::user()->name }}
-            </x-slot>
+            
         <h1>Event</h1>
-        <form action="/events" method="POST">
+        <form action="/events" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="title">
                 <h2>Title</h2>
                 <input type="text" name="event[title]" placeholder="タイトル" value = "{{ old('event.title') }}" />
                 <p class="title__error" style="color:red">{{ $errors->first('event.title') }}</p>
-                
             </div>
-            <div class="contentss">
+            
+            <div class="contents">
                 <h2>Contents</h2>
                 <textarea name="event[contents]" >{{ old('event.contents') }}</textarea>
-                <p class="title__error" style="color:red">{{ $errors->first('event.contents') }}</p>
-                <textarea name="event[image]"></textarea>
+                <p class="contents__error" style="color:red">{{ $errors->first('event.contents') }}</p>
+                    <div class="images">
+                        <input type="file"  name="image" >
+                        <p class="photos__error" style="color:red">{{ $errors->first('image') }}</p>
+                    </div>
             </div>
             <input type="submit" value="イベント登録"/>
         </form>
         <div class="footer">
             <a href="/">戻る</a>
         </div>
+        
         </x-app-layout>
-    </body>
+        
+    
+    <input type="submit">
+</form>
+</body>
    
-</html>
