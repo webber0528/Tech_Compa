@@ -54,7 +54,7 @@ class EventController extends Controller
     public function update(EventRequest $request, Event $event)
     {
         $input = $request['event'];
-        #$img = $request->file('updateimg');
+
         $updateimg = $request->file('updateimg');
         if($updateimg != null)
         {

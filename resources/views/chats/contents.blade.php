@@ -1,42 +1,43 @@
 <x-app-layout>
-    
+
             <div class="my-4 p-4 rounded-lg bg-blue-200" name="chatscontents">
-                
+
                 @foreach($chat as $c)
                     <div class='chat'>
-                        @if($c->uidentifer == session('uidentifer'))
+                        @if($c->user_id)
                         <p style ="text-align: right">
                             <a>{{$c->user->name}} &ensp;{{$c->created_at}}</a><br>
                             <big>{{$c->message}}</big>
+                        <form action="/chats/{{ $c->id }}" id="form_{{ $c->id }}" method="post" align="right">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" onclick="deleteEvent({{ $c->id }})" >削除</button>
+                        </form>
                         </p>
                         @else
-                        <p style ="text-align: left">
+                        <p align="left">
                             <a>{{$c->user->name}} &ensp;{{$c->created_at}}</a><br>
                             <big>{{$c->message}}</big>
+                        <form action="/chats/{{ $c->id }}" id="form_{{ $c->id }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" onclick="deleteEvent({{ $c->id }})">削除</button>
+                        </form>
                         </p>
                         @endif
-                        
+
                     </div>
-                    
-                    <form action="/chats/{{ $c->id }}" id="form_{{ $c->id }}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        @if($c->uidentifer == session('uidentifer'))
-                        <p style= "text-align: right">
-                        <button type="button" onclick="deleteEvent({{ $c->id }})">削除</button>
-                        @else
-                        @endif
-                        </p>
-                    </form>
+
+
                 @endforeach
-                
-                
+
+
             </div>
             <div>
                 <form action="/chats/{{$user->id}}" method="POST">
                         @csrf
                         <input type="hidden" >
-                        <input class=type "text" name="chat[message]"  maxlength="100">
+                        <input class=type "text" style="width: 400px;"name="chat[message]"  maxlength="100">
                         <button class="mt-2 md:mt-0 md:ml-2 py-1 px-2 rounded text-center bg-gray-500 text-white" type="submit">送信</button>
                 </form>
             </div>
@@ -48,6 +49,6 @@
                     }
                 }
             </script>
-    
-        
+
+
 </x-app-layout>

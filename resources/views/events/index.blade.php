@@ -1,9 +1,19 @@
 
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <link href="{{ asset('build/assets/app.css') }}" rel="stylesheet" >
+    
+    </head>
+<body>
 <x-app-layout>
     
        
     
-        <div class='events'>
+        <div class='events' style="background-color:#C0C0C0;">
             @foreach ($events as $e)
                 <div class='event'align="center">
                     
@@ -23,7 +33,7 @@
                         <a>{{ $e->user->name }}さんが作成</a>
                     </div>
                 </div>
-               
+               @if (Auth::check()){
                 <form action="/events/{{ $e->id }}" id="form_{{ $e->id }}" method="post" >
                     <div align="right">
                     @csrf
@@ -31,6 +41,8 @@
                     <button type="button" onclick="deleteEvent({{ $e->id }})">イベント削除</button>
                     </div>
                 </form>
+                }
+                @endif
                 <hr>
             @endforeach
             
@@ -55,3 +67,5 @@
         
     
 </x-app-layout>
+</body>
+</html>
