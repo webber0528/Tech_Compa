@@ -1,41 +1,58 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<html lang="ja">
     <head>
-        <meta charset="utf-8">
-        <title>Event</title>
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <link href="{{ asset('build/assets/app.css') }}" rel="stylesheet" >
+    
     </head>
-    <body>
-        <x-app-layout>
-            <x-slot name="header">
-                　{{ Auth::user()->name }}
-            </x-slot>
-        <h1>TOP</h1>
-        <div class='events'>
+<body>
+<x-app-layout>
+    
+       
+    
+        <div class='events' style="background-color:#C0C0C0;">
             @foreach ($events as $e)
-                <div class='event'>
-                    <h2 class='title'><a href="/events/{{ $e->id }}">{{ $e->contents }}</a></h2>
-                    <p class='contents'><a href="/events/{{ $e->id }}">{{ $e->title }}</a></p>
-                    <p class='image'>{{ $e->image}}</p>
+                <div class='event'align="center">
                     
+                    <div class='title' >
+                        <a href="/events/{{ $e->id }}">{{ $e->title }}</a>
+                    </div>
                     
+                    <div class='contents' >
+                        <a>{{ $e->contents }}</a>
+                    </div>
+                    
+                    <div class="images" >
+                        <img src= "{{ $e->image }}" alt="">
+                    </div>
+                    
+                    <div class="user_name" >
+                        <a>{{ $e->user->name }}さんが作成</a>
+                    </div>
                 </div>
-                <form action="/events/{{ $e->id }}" id="form_{{ $e->id }}" method="post">
-                @csrf
-                @method('DELETE')
-                <button type="button" onclick="deleteEvent({{ $e->id }})">イベント削除</button>
-            </form>
+               @if (Auth::check()){
+                <form action="/events/{{ $e->id }}" id="form_{{ $e->id }}" method="post" >
+                    <div align="right">
+                    @csrf
+                    @method('DELETE')
+                    <button type="button" onclick="deleteEvent({{ $e->id }})">イベント削除</button>
+                    </div>
+                </form>
+                }
+                @endif
+                <hr>
             @endforeach
             
             
-            <a href='/events/create'>イベント作成</a>
-            
-            <div class='paginate'>
-                {{ $events->links() }}
-            </div>
-            
-            
+            <a href='/events/create'>
+                <div align="right">
+                イベント作成
+                </div>
+            </a>
+        </div>
             
             <script>
                 function deleteEvent(id) {
@@ -46,7 +63,9 @@
                 }
             </script>
             
-        </div>
-        </x-app-layout>
-    </body>
+            
+        
+    
+</x-app-layout>
+</body>
 </html>

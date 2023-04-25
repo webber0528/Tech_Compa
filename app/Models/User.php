@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
+use App\Models\Event;
+use App\Models\Chat;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -24,12 +25,19 @@ class User extends Authenticatable
         'password',
     ];
     
+    public function chats()   
+    {
+        return $this->hasMany(Chat::class);  
+    }
+    
+    
     
     public function events()
     {
         return $this->hasMany(Event::class);
     }
-
+    
+    
     /**
      * The attributes that should be hidden for serialization.
      *
