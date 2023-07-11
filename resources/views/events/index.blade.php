@@ -30,7 +30,7 @@
                     </div>
                     
                     <div class="user_name" >
-                        <a>{{ $e->user->name }}さんが作成</a>
+                        <a>{{ $e->user->name }}</a>
                     </div>
                 </div>
                @if (Auth::check()){
